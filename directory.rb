@@ -1,14 +1,21 @@
+def replace_chmp(string)
+  return string.rstrip
+end
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   students = []
   cohorts = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-  name = gets.chomp
+  name = gets
+  name = replace_chmp(name)
   while !name.empty? do
     puts "Please enter the students hobbies"
-    hobbies = gets.chomp
+    hobbies = gets
+    hobbies = replace_chmp(hobbies)
     puts "Please enter a cohort"
-    cohort = gets.chomp
+    cohort = gets
+    cohort = replace_chmp(cohort)
 
     if !cohorts.include?(cohort.downcase.capitalize)
       cohort = "November"
@@ -16,7 +23,8 @@ def input_students
 
     students << {name: name, cohort: cohort.to_sym, hobbies: hobbies}
     puts "Now we have #{students.count} students"
-    name = gets.chomp
+    name = gets
+    name = replace_chmp(name)
   end
   students
 end
@@ -51,7 +59,7 @@ def print(students)
 end
 
 def print_footer(students)
-  student_count = students.student_count
+  student_count = students.count
   if student_count == 1
     puts "Overall, we have #{student_count} great student."
   else
