@@ -49,6 +49,10 @@ end
 def print(students)
   filter = specific_letter
   count = students.count
+  if count < 1 || nil
+    puts "Please add a student"
+    input_students
+  end
   i = 0
   while i < count
     if students[i][:name].start_with?(filter) && students[i][:name].length <= 12
