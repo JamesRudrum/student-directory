@@ -31,7 +31,7 @@ end
 def print(students)
   filter = specific_letter
   students.each_with_index do |student, index|
-    if student[:name].start_with?(filter)
+    if student[:name].start_with?(filter) && student[:name].length <= 12
       puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
