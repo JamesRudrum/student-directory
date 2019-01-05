@@ -35,8 +35,8 @@ def input_students
   order_students
 end
 
-def save_students
-  file = File.open("students.csv", "w")
+def save_students(filename = "students.csv")
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student [:cohort]]
     csv_line = student_data.join(",")
@@ -53,8 +53,7 @@ def load_students(filename = "students.csv")
   file.close
 end
 
-def try_load_students
-  filename = ARGV.first
+def try_load_students(filename = ARGV.first)
   if filename.nil?
     filename = "students.csv"
   end
@@ -134,6 +133,11 @@ def add_name_and_cohort(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
+def ask_for_file
+  puts "Enter file you would like to use"
+  STDIN.gets.chomp
+end
+
 def process(selection)
   case selection
   when "1"
@@ -143,11 +147,11 @@ def process(selection)
     puts "You have selected to show names"
     show_students
   when "3"
-    puts "You have selected to save the list"
-    save_students
+    puts "You have selected to save the list (from the default file students.csv)"
+    save_students(ask_for_file)
   when "4"
-    puts "You have selected to load the list from file"
-    load_students
+    puts "You have selected to load the list (from the default file students.csv)"
+    load_students(ask_for_file)
   when "9"
     puts "Now quitting"
     exit
