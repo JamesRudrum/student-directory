@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 
 def replace_chmp(string)
@@ -36,23 +37,18 @@ def input_students
 end
 
 def save_students(filename = "students.csv")
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "wb") do |file|
     @students.each do |student|
-      student_data = [student[:name], student [:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      file << [student[:name], student[:cohort]]
     end
   end
 end
 
 def load_students(filename = "students.csv")
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
+  CSV.foreach(filename) do |line|
+    name, cohort = line
     add_name_and_cohort(name, cohort)
-    end
   end
-  file.close
 end
 
 def try_load_students(filename = ARGV.first)
