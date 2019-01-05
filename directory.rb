@@ -145,4 +145,5 @@ def process(selection)
   end
 end
 
+try_load_students
 interactive_menu
