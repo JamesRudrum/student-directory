@@ -137,14 +137,19 @@ end
 def process(selection)
   case selection
   when "1"
-    students = input_students
+    puts "You have selected to input names"
+    input_students
   when "2"
+    puts "You have selected to show names"
     show_students
   when "3"
+    puts "You have selected to save the list"
     save_students
   when "4"
+    puts "You have selected to load the list from file"
     load_students
   when "9"
+    puts "Now quitting"
     exit
   else
     puts "I don't know what you meant, try again"
