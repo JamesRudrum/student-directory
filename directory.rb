@@ -13,14 +13,14 @@ def input_students
   puts "To finish, just hit return twice"
   @students = []
   cohorts = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-  name = gets
+  name = STDIN.gets
   name = replace_chmp(name)
   while !name.empty? do
     puts "Please enter the students hobbies"
-    hobbies = gets
+    hobbies = STDIN.gets
     hobbies = replace_chmp(hobbies)
     puts "Please enter a cohort"
-    cohort = gets
+    cohort = STDIN.gets
     cohort = replace_chmp(cohort)
 
     if !cohorts.include?(cohort.downcase.capitalize)
@@ -29,16 +29,46 @@ def input_students
 
     @students << {name: name, cohort: cohort.to_sym, hobbies: hobbies}
     puts "Now we have #{@students.count} students"
-    name = gets
+    name = STDIN.gets
     name = replace_chmp(name)
   end
   order_students
 end
 
+def save_students
+  file = File.open("students.csv", "w")
+  @students.each do |student|
+    student_data = [student[:name], student [:cohort]]
+    csv_line = student_data.join(",")
+  end
+  file.close
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
 def specific_letter
   while true
     puts "Which letter do you want the name filter to start with?"
-    filter = gets.chomp
+    filter = STDIN.gets.chomp
     if filter.length == 1
       break
     else puts "Enter just one letter"
@@ -80,7 +110,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -96,24 +126,6 @@ def show_students
   print_header
   print_students_list
   print_footer
-end
-
-def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    student_data = [student[:name], student [:cohort]]
-    csv_line = student_data.join(",")
-  end
-  file.close
-end
-
-def load_students
-  file = File.open("students.csv", "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
 end
 
 def process(selection)
