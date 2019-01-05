@@ -27,7 +27,7 @@ def input_students
       cohort = "November"
     end
 
-    @students << {name: name, cohort: cohort.to_sym, hobbies: hobbies}
+    add_name_and_cohort(name, cohort)
     puts "Now we have #{@students.count} students"
     name = STDIN.gets
     name = replace_chmp(name)
@@ -48,7 +48,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    add_name_and_cohort(name, cohort)
   end
   file.close
 end
@@ -126,6 +126,10 @@ def show_students
   print_header
   print_students_list
   print_footer
+end
+
+def add_name_and_cohort(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def process(selection)
